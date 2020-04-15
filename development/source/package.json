@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www",
+    "test": "cross-env NODE_EVN test ./node_modules/.bin/jest",
+    "migrate:dev": "sequelize db:migrate",
+    "migrate:test": "cross-env NODE_ENV=test sequelize db:migrate"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
