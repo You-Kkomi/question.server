@@ -1,41 +1,39 @@
-var createError = require('http-errors')
-var express = require('express')
-var path = require('path')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
+'use strict'
 
-var indexRouter = require('./routes/index')
-var usersRouter = require('./routes/users')
+// eslint-disable-next-line newline-per-chained-call
+require('dotenv').config()
 
-var app = express()
+const createError = require('http-errors')
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const cors = require('cors')
+const helmet = require('helmet')
+const HttpStatusCode = require('http-status-codes')
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'jade')
+const app = express()
 
-app.use(logger('dev'))
+app.use(cors())
+app.use(helmet())
+app.use(logger('combined'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
+app.use('/', require('./routes'))
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404))
+app.use(function (req, res, next) {
+  next(createError(HttpStatusCode.NOT_FOUND))
 })
 
 // error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
+app.use(function (err, req, res, next) {
   res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
+  res.locals.error = process.env.NODE_ENV === 'development' ? err : {}
 
-  // render the error page
-  res.status(err.status || 500)
-  res.render('error')
+  return res.status(err.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
+    .json({ err })
 })
 
 module.exports = app
