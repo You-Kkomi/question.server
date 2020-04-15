@@ -1,52 +1,16 @@
 {
-  "name": "question.server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "source",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.8.7",
-    "@hapi/joi": "^17.1.1",
-    "bcrypt": "^4.0.1",
-    "cookie-parser": "^1.4.5",
-    "core-js": "^3.6.5",
-    "cors": "^2.8.5",
-    "cross-env": "^7.0.2",
-    "debug": "^4.1.1",
-    "del": "^5.1.0",
-    "dotenv": "^8.2.0",
-    "ejs": "^3.0.2",
-    "express": "^4.17.1",
-    "express-joi-validation": "^4.0.3",
-    "helmet": "^3.22.0",
-    "http-errors": "^1.7.3",
-    "http-status-codes": "^1.4.0",
-    "ioredis": "^4.16.2",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
-    "morgan": "^1.10.0",
-    "mysql2": "^2.1.0",
-    "sequelize": "^5.21.6",
-    "uuid": "^7.0.3"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/node": "^7.8.7",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/preset-env": "^7.9.5",
-    "@babel/register": "^7.9.0",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^25.3.0",
-    "eslint": "^6.8.0",
-    "gulp": "^4.0.2",
-    "jest": "^25.3.0",
-    "random-string": "^0.2.0",
-    "regenerator-runtime": "^0.13.5",
-    "supertest": "^4.0.2"
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1"
   }
 }
