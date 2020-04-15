@@ -1,6 +1,5 @@
 'use strict'
 
-// eslint-disable-next-line newline-per-chained-call
 require('dotenv').config()
 
 const createError = require('http-errors')
