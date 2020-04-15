@@ -31,6 +31,13 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message
   res.locals.error = process.env.NODE_ENV === 'development' ? err : {}
 
+  if (err && err.error && err.error.isJoi) {
+    return res.status(400).json({
+      message: '잘못된 요청입니다.',
+      data: err.error.toString()
+    })
+  }
+
   return res.status(err.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
     .json({ err })
 })

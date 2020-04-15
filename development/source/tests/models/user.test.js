@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const randomgString= require('random-string')
 
-const v1Models = require('../../modelsv1')
+const v1Models = require('../../models/v1')
 
 describe('user test', () => {
     let user
