@@ -39,23 +39,3 @@ module.exports.logout = async (req, res, next) => {
     throw err
   }
 }
-
-module.exports.register = async (req, res, next) => {
-  try {
-    var user = await v1Models.User.findOne({
-      where: {
-        nickname: req.body.nickname
-      }
-    })
-
-    if (user) {
-      return response(res, '이미 존재하는 계정입니다.', {}, HttpStatusCodes.NOT_FOUND)
-    }
-
-    user = await v1Models.User.create(req.body)
-
-    return response(res, '회원가입에 성공하였습니다.', { user }, HttpStatusCodes.OK)
-  } catch (err) {
-    throw err
-  }
-}

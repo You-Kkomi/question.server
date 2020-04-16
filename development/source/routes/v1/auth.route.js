@@ -16,10 +16,4 @@ router.route('/login')
 router.route('/logout')
   .post(controller.logout)
 
-router.route('/register')
-  .post(
-    validator.body(validation.create),
-    controller.register
-  )
-
 module.exports = router

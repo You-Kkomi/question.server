@@ -16,26 +16,10 @@ describe('auth test', () => {
     beforeAll(async () => {
         nickname = randomString()
         password = randomString()
-    })
 
-    describe('register test', () => {
-        test('register fail cause invalide body', async () => {
-            let response = await request(app)
-                .post('/v1/auth/register')
-                .send({})
-
-            expect(response.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
-        })
-
-        test('register successfully', async () => {
-            let response = await request(app)
-                .post('/v1/auth/register')
-                .send({
-                    nickname,
-                    password
-                })
-
-            expect(response.statusCode).toBe(HttpStatusCodes.OK)
+        await v1Models.User.create({
+            nickname,
+            password
         })
     })
 
