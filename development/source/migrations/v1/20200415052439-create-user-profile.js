@@ -30,13 +30,6 @@ module.exports = {
         defaultValue: null
       }
     })
-    .then((result) => {
-      
-    })
-    .catch((err) => {
-      console.log(err)
-      throw err
-    })
   },
 
   down: (queryInterface, Sequelize) => {
