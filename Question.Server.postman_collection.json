@@ -1,105 +1,359 @@
 {
 	"info": {
-		"_postman_id": "53378af0-d8ee-4390-b111-4f41b8e0f301",
-		"name": "Question.Server",
+		"_postman_id": "1dd53f50-a8cf-4cd7-9979-0fa00a354800",
+		"name": "question.server",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "로그인",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "nickname",
-							"value": "nickname_1",
-							"type": "text"
+			"name": "Auth",
+			"item": [
+				{
+					"name": "로그인",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6Im5pY2tuYW1lXzUyIiwiaWF0IjoxNTg3MDUwNTU1LCJleHAiOjE1ODcwNTE1NTV9.VHE52zVfmHUbkKI6QtghGhI5C-SD-0REh-5SnOul0No",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nickname",
+									"value": "nickname_postman_2",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "5678",
+									"type": "text"
+								}
+							]
 						},
-						{
-							"key": "password",
-							"value": "password_1",
-							"type": "text"
+						"url": {
+							"raw": "http://localhost:3000/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://question.api-namu.kro.kr:3000/v1/auth/login",
-					"protocol": "http",
-					"host": [
-						"question",
-						"api-namu",
-						"kro",
-						"kr"
-					],
-					"port": "3000",
-					"path": [
-						"v1",
-						"auth",
-						"login"
-					]
+				{
+					"name": "로그아웃",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Baerer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiJuaWNrbmFtZV81MiIsImlhdCI6MTU4NzE1NzA0NiwiZXhwIjoxNTg3MTU4MDQ2fQ.NH5JS21qjcYRRqVcn9obc65ygdowJ1hDjr5weattKU0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nickname",
+									"value": "nickname_5",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password_122",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/v1/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "16448c6d-6875-47ae-9e84-f792d61c45f0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "70512c8a-542e-46c1-aacc-4b5762b85592",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "회원가입",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "nickname",
-							"value": "nickname_1",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "password_1",
-							"type": "text"
+			"name": "User",
+			"item": [
+				{
+					"name": "사용자 조회",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Baerer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzIiLCJpYXQiOjE1ODcxNTkwNDUsImV4cCI6MTU4NzE2MDA0NX0.P2fhJwA6NKjQX009d5RDQEkuPwTWESJkG2uxkcBqvzI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/v1/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"users",
+								""
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://question.api-namu.kro.kr:3000/v1/auth/login",
-					"protocol": "http",
-					"host": [
-						"question",
-						"api-namu",
-						"kro",
-						"kr"
-					],
-					"port": "3000",
-					"path": [
-						"v1",
-						"auth",
-						"login"
-					]
+				{
+					"name": "사용자 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "nickname",
+									"value": "nickname_postman_2",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/v1/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "사용자 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzEiLCJpYXQiOjE1ODcxNTczNTIsImV4cCI6MTU4NzE1ODM1Mn0.IlNPUOd_V-xp1edC79Vw5JJ6EIdXfJSlI7Wo9a8lFEY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:3000/v1/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "사용자 수정",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzIiLCJpYXQiOjE1ODcxNTkwNDUsImV4cCI6MTU4NzE2MDA0NX0.P2fhJwA6NKjQX009d5RDQEkuPwTWESJkG2uxkcBqvzI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "5678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/v1/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "사용자 프로필 수정",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzIiLCJpYXQiOjE1ODcxNTk0NTksImV4cCI6MTU4NzE2MDQ1OX0.RO0DgSOHA7fJotqskjb5TjALFbMbtz64tVL3z1KkJko",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "profileImg",
+									"value": "https://google.com",
+									"type": "text"
+								},
+								{
+									"key": "greeting",
+									"value": "Hello!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/v1/users/profiles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"users",
+								"profiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "사용자 프로필 초기화",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzIiLCJpYXQiOjE1ODcxNTk0NTksImV4cCI6MTU4NzE2MDQ1OX0.RO0DgSOHA7fJotqskjb5TjALFbMbtz64tVL3z1KkJko",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/v1/users/profiles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"users",
+								"profiles"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"auth": {
 		"type": "bearer"
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e3455609-e976-4812-a335-e45a175fd532",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "d5028042-4d3d-413d-9641-ba2d7f7b63ea",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"protocolProfileBehavior": {}
 }
