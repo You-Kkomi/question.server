@@ -7,3 +7,7 @@ module.exports.create = Joi.object({
     .required(),
   password: Joi.string().required()
 })
+
+module.exports.passwordUpdate = Joi.object({
+  password: Joi.string().required()
+})

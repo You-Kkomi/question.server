@@ -12,12 +12,13 @@ describe('auth test', () => {
 
     let nickname
     let password
+    let token
 
     beforeAll(async () => {
         nickname = randomString()
         password = randomString()
 
-        await v1Models.User.create({
+        const user = await v1Models.User.create({
             nickname,
             password
         })
@@ -36,9 +37,18 @@ describe('auth test', () => {
             expect(response.statusCode).toBe(HttpStatusCodes.NOT_FOUND)
         })
 
-        test('login successfully', async () => {
-            // POST /v1/auth/login
+        test('login fail cause invalide password', async () => {
+            let response = await request(app)
+                .post('/v1/auth/login')
+                .send({
+                    nickname,
+                    password: 'asdf'
+                })
+    
+            expect(response.statusCode).toBe(HttpStatusCodes.NOT_FOUND)
+        })
 
+        test('login successfully', async () => {
             let response = await request(app)
                 .post('/v1/auth/login')
                 .send({
@@ -52,7 +62,18 @@ describe('auth test', () => {
             const payload = jwtUtil.check(response.body.data.token)
 
             expect(payload.nickname).toBe(nickname)
+
+            token = response.body.data.token
         })
     })
 
+    describe('logout test', () => {
+        test('logout successfully', async () => {
+            let response = await request(app)
+                .delete('/v1/auth/logout')
+                .set('Authorization', `Baerer ${token}`)
+
+            expect(response.statusCode).toBe(HttpStatusCodes.OK)
+        })
+    })
 })

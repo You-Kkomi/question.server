@@ -21,6 +21,7 @@ router.route('/')
   )
   .put(
     auth.check,
+    validator.body(validation.passwordUpdate),
     controller.update
   )
   .delete(

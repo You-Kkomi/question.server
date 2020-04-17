@@ -5,39 +5,74 @@ const randomString = require('random-string')
 const app = require('../../app')
 const v1Models = require('../../models/v1')
 const jwtUtil = require('../../utils/jwt')
+const bcrypt = require('bcrypt')
 
-let user
+let nickname
+let password
 let token
 
 beforeAll(async () => {
-  user = await v1Models.User.create({
-    nickname: randomString(),
-    password: randomString()
-  })
-
-  token = jwtUtil.generate({ id: user.id, nickname: user.nickname })
+  nickname = randomString()
+  password = randomString()
 })
 
 afterAll(() => v1Models.sequelize.close())
 
-describe('GET /users', () => {
-
-  test('Get user loaded with profile.', async () => {
-
+describe('POST /users', () => {
+  test('create user', async () => {
     let res = await request(app)
-      .get('/v1/users')
-      .set('Authorization', `Bearer ${ token }`)
+      .post('/v1/users')
+      .send({
+        nickname,
+        password
+      })
 
-    expect(res.statusCode).toBe(HttpStatusCodes.OK)
-    expect(res.body.data.user.profile).toBeTruthy()
+    const isMatch = await bcrypt.compare(password, res.body.data.password)
+
+    expect(res.statusCode).toBe(HttpStatusCodes.CREATED)
+    expect(res.body.data.nickname).toBe(nickname)
+    expect(isMatch).toBe(true)
+
+    token = jwtUtil.generate({ id: res.body.data.id, nickname: nickname })
   })
 
+  test('create user but already exists nickname', async () => {
+    let res = await request(app)
+      .post('/v1/users')
+      .send({
+        nickname,
+        password
+      })
+
+    expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
+  })
+})
+
+describe('GET /users', () => {
+  test('Get user loaded with profile.', async () => {
+    let res = await request(app)
+      .get('/v1/users')
+      .set('Authorization', `Bearer ${token}`)
+
+    expect(res.statusCode).toBe(HttpStatusCodes.OK)
+  })
 })
 
 describe('PUT /users', () => {
+  describe('PUT /', () => {
+    test('password edit', async () => {
+      let res = await request(app)
+        .put('/v1/users')
+        .send({
+          password: 'asdf'
+        })
+        .set('Authorization', `Bearer ${token}`)
+
+      expect(res.statusCode).toBe(HttpStatusCodes.OK)
+    })
+  })
 
   describe('PUT /profiles', () => {
-  
     test('profile edit', async () => {
       let res = await request(app)
         .put('/v1/users/profiles')
@@ -45,32 +80,33 @@ describe('PUT /users', () => {
           profileImg: '/asdf',
           greeting: 'asdf'
         })
-        .set('Authorization', `Bearer ${ token }`)
-
-        console.log(res.body.data.profile)
-        
+        .set('Authorization', `Bearer ${token}`)
 
       expect(res.statusCode).toBe(HttpStatusCodes.OK)
-
     })
-
   })
-
 })
 
 describe('DELETE /users', () => {
-
   describe('DELETE /profiles', () => {
-
-    test('Reset user', async () => {
+    test('reset user profile', async () => {
       let res = await request(app)
         .delete('/v1/users/profiles')
-        .set('Authorization', `Bearer ${ token }`)
-  
+        .set('Authorization', `Bearer ${token}`)
+
       expect(res.statusCode).toBe(HttpStatusCodes.OK)
-
+      expect(res.body.data.profile.profileImg).toBe(null)
+      expect(res.body.data.profile.greeting).toBe(null)
     })
-
   })
 
+  describe('DELETE /', () => {
+    test('delete user', async () => {
+      let res = await request(app)
+        .delete('/v1/users')
+        .set('Authorization', `Bearer ${token}`)
+
+      expect(res.statusCode).toBe(HttpStatusCodes.OK)
+    })
+  })
 })

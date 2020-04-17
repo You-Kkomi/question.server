@@ -20,7 +20,7 @@ module.exports.login = async (req, res, next) => {
     }
 
     if (await user.checkPassword(password)) {
-      const token = jwt.generate({ id, nickname: user.nickname })
+      const token = jwt.generate({ id: user.id, nickname: user.nickname })
 
       return response(res, '로그인에 성공하였습니다.', { token }, HttpStatusCodes.OK)
     }

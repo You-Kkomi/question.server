@@ -20,9 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-    tableName: 'users',
-    timestamps: true
-  })
+      tableName: 'users',
+      timestamps: true
+    })
 
   User.associate = (models) => {
     User.hasOne(models.UserProfile, {
