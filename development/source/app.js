@@ -19,6 +19,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
+app.use((req, res, next) => {
+  console.log(req.headers)
+  console.log(req.body)
+  next()
+})
+
 app.use('/', require('./routes'))
 
 // catch 404 and forward to error handler
