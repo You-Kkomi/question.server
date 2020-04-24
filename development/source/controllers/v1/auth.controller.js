@@ -6,7 +6,6 @@ const jwt = require('../../utils/jwt')
 
 module.exports.login = async (req, res, next) => {
   try {
-    const id = req.body.id
     const password = req.body.password
 
     const user = await v1Models.User.findOne({

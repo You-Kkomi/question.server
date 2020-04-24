@@ -19,7 +19,7 @@ beforeAll(async () => {
 afterAll(() => v1Models.sequelize.close())
 
 describe('POST /users', () => {
-  test('create user', async () => {
+  test('유저를 생성합니다.', async () => {
     let res = await request(app)
       .post('/v1/users')
       .send({
@@ -36,7 +36,7 @@ describe('POST /users', () => {
     token = jwtUtil.generate({ id: res.body.data.id, nickname: nickname })
   })
 
-  test('create user but already exists nickname', async () => {
+  test('이미 존재하는 닉넴으로 유저를 생성하면 400 에러를 발생시킵니다.', async () => {
     let res = await request(app)
       .post('/v1/users')
       .send({
@@ -46,10 +46,21 @@ describe('POST /users', () => {
 
     expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
   })
+
+  test('닉네임의 길이가 20보다 크다면 400 에러를 발생시킵니다.', async () => {
+    let res = await request(app)
+      .post('/v1/users/')
+      .send({
+        nickname: randomString({ length: 30 }),
+        password
+      })
+
+    expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
+  })
 })
 
 describe('GET /users', () => {
-  test('Get user loaded with profile.', async () => {
+  test('유저를 조회할때 유저의 프로필도 함께 조회를 합니다.', async () => {
     let res = await request(app)
       .get('/v1/users')
       .set('Authorization', `Bearer ${token}`)
@@ -60,7 +71,7 @@ describe('GET /users', () => {
 
 describe('PUT /users', () => {
   describe('PUT /', () => {
-    test('password edit', async () => {
+    test('유저의 패스워드를 수정합니다.', async () => {
       let res = await request(app)
         .put('/v1/users')
         .send({
@@ -73,7 +84,7 @@ describe('PUT /users', () => {
   })
 
   describe('PUT /profiles', () => {
-    test('profile edit', async () => {
+    test('유저의 프로필을 수정합니다.', async () => {
       let res = await request(app)
         .put('/v1/users/profiles')
         .send({
@@ -89,7 +100,7 @@ describe('PUT /users', () => {
 
 describe('DELETE /users', () => {
   describe('DELETE /profiles', () => {
-    test('reset user profile', async () => {
+    test('유저의 프로필을 초기화 합니다.', async () => {
       let res = await request(app)
         .delete('/v1/users/profiles')
         .set('Authorization', `Bearer ${token}`)
@@ -101,7 +112,7 @@ describe('DELETE /users', () => {
   })
 
   describe('DELETE /', () => {
-    test('delete user', async () => {
+    test('유저를 삭제합니다.', async () => {
       let res = await request(app)
         .delete('/v1/users')
         .set('Authorization', `Bearer ${token}`)
