@@ -45,12 +45,14 @@ router.route('/:id/answers')
 router.route('/:id/answers/:answerId')
     .put(
         auth.check,
+        question.checkQuestionExist,
         question.checkAnswerExist,
         question.checkAnswerOwner,
         controller.updateAnswer
     )
     .delete(
         auth.check,
+        question.checkQuestionExist,
         question.checkAnswerExist,
         question.checkAnswerOwner,
         controller.deleteAnswer
