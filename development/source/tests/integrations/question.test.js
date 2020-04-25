@@ -7,6 +7,7 @@ const v1Models = require('../../models/v1')
 const jwtUtil = require('../../utils/jwt')
 
 let token
+let user
 let questionId
 let questionTitle
 let questionContent
@@ -14,80 +15,89 @@ let answerId
 let answerContent
 
 beforeAll( async () => {
-    const user = await v1Models.User.create({
+    user = await v1Models.User.create({
         nickname: randomString(),
         password: randomString()
     })
 
     token = jwtUtil.generate({ id: user.id, nickname: user.nickname })
 
-    questionTitle = randomString({ length: 30 })
+    questionTitle = `${randomString({ length: 30 })}a`
     questionContent = randomString({ length: 200 })
     answerContent = randomString({ length: 25 })
 })
 
-afterAll(() => {
+afterAll(() => { v1Models.sequelize.close() })
 
-})
-
-describe('POST /question', () => {
+describe('POST /questions', () => {
 
     test('질문을 추가합니다.', async () => {
         const res = await request(app)
-            .post('/question')
+            .post('/v1/questions/')
             .send({
-                questionTitle,
-                questionContent
+                title: questionTitle,
+                content: questionContent
             })
             .set('Authorization', `Bearer ${token}`)
         
-        expect(res.statusCode).toBe(HttpStatusCodes.OK)
-        expect(res.body.data.title).toBe(questionTitle)
-        expect(res.body.data.content).toBe(questionContent)
+        expect(res.statusCode).toBe(HttpStatusCodes.CREATED)
+        expect(res.body.data.question.title).toBe(questionTitle)
+        expect(res.body.data.question.content).toBe(questionContent)
+        expect(res.body.data.question.userId).toBe(user.id)
 
-        questionId = res.body.data.id
+        questionId = res.body.data.question.id
     })
 
-    describe('POST /answer', () => {
+    describe('POST /answers', () => {
 
         test('질문에 답변을 등록합니다.', async () => {
             const res = await request(app)
-                .post(`/question/${questionId}/answer`)
+                .post(`/v1/questions/${questionId}/answers/`)
                 .send({
                     content: answerContent
                 })
                 .set('Authorization', `Bearer ${token}`)
 
-            expect(res.statusCode).toBe(HttpStatusCodes.OK)
-
-            const answer = res.body.data.answers.find(answer => answer.id == answerId)
-
-            expect(answer).toBeTruthy()
-            expect(answer.content).toBe(answerContent)
+            expect(res.statusCode).toBe(HttpStatusCodes.CREATED)
+            expect(res.body.data.answer.questionId).toBe(questionId.toString())
+            expect(res.body.data.answer.content).toBe(answerContent)
             
-            answerId = answer.id
+            answerId = res.body.data.answer.id
         })
 
     })
 
 })
 
-describe('GET /question', () => {
+describe('GET /questions', () => {
 
-    test('질문을 가져올때 답변을 함께 가져옵니다.', async () => {
+    test('아이디를 기준으로 검색을 하고 질문과 답변을 함께 가져옵니다.', async () => {
         const res = await request(app)
-            .get(`/question/${questionId}`)
+            .get(`/v1/questions`)
+            .query(`id=${questionId}`)
             .set('Authorization', `Bearer ${token}`)
 
         expect(res.statusCode).toBe(HttpStatusCodes.OK)
-        expect(res.body.data.title).toBe(questionTitle)
-        expect(res.body.data.content).toBe(questionContent)
-        expect(res.body.data.answers).toBeTruthy()
+        expect(res.body.data.questions[0].title).toBe(questionTitle)
+        expect(res.body.data.questions[0].content).toBe(questionContent)
+        expect(res.body.data.questions[0].answers).toBeTruthy()
+    })
+
+    test('타이틀을 기준으로 검색을 하고 질문과 답변을 함께 가져옵니다.', async () => {
+        const res = await request(app)
+            .get(`/v1/questions`)
+            .query(`title=a`)
+            .set('Authorization', `Bearer ${token}`)
+
+        expect(res.statusCode).toBe(HttpStatusCodes.OK)
+        expect(res.body.data.questions[0].title).toBe(questionTitle)
+        expect(res.body.data.questions[0].content).toBe(questionContent)
+        expect(res.body.data.questions[0].answers).toBeTruthy()
     })
 
 })
 
-describe('PUT /question', () => {
+describe('PUT /questions', () => {
 
     const updatedTitle = randomString({ length: 30 })
     const updatedContent = randomString({ length: 200 })
@@ -95,7 +105,7 @@ describe('PUT /question', () => {
 
     test('질문을 수정합니다.', async () => {
         const res = await request(app)
-            .put(`/question/${questionId}/answer/${answerId}`)
+            .put(`/v1/questions/${questionId}/`)
             .send({
                 title: updatedTitle,
                 content: updatedContent
@@ -103,88 +113,45 @@ describe('PUT /question', () => {
             .set('Authorization', `Bearer ${token}`)
         
         expect(res.statusCode).toBe(HttpStatusCodes.OK)
-        expect(res.body.data.title).toBe(updatedTitle)
-        expect(res.body.data.content).toBe(updatedContent)
     })
 
-    test('자신의 질문이 아닌 다른 질문을 수정시 403을 반환합니다.', async () => {
-        const res = await request(app)
-            .put(`/question/${questionId}/answer/${answerId}`)
-            .send({
-                title: updatedTitle,
-                content: updatedContent
-            })
-
-        expect(res.statusCode).toBe(HttpStatusCodes.FORBIDDEN)
-    })
-
-    describe('PUT /answer', () => {
+    describe('PUT /answers', () => {
         
         test('질문에 답변을 수정합니다.', async () => {
             const res = await request(app)
-                .put(`/question/${questionId}/answer/${answerId}`)
+                .put(`/v1/questions/${questionId}/answers/${answerId}/`)
                 .send({
-                    title: updatedTitle,
-                    content: updatedContent
+                    content: updatedAnswer
                 })
                 .set('Authorization', `Bearer ${token}`)
         
             expect(res.statusCode).toBe(HttpStatusCodes.OK)
-            
-            const answer = res.body.data.answers.find(answer => answer.id == answerId)
-
-            expect(answer.content).toBe(updatedContent)
-        })
-
-        test('자신의 답변이 아닌 다른 답변을 수정시 403을 반환합니다.', async () => {
-            const res = await request(app)
-                .put(`/question/${questionId}/answer/${answerId}`)
-                .send({
-                    title: updatedTitle,
-                    content: updatedContent
-                })
-    
-            expect(res.statusCode).toBe(HttpStatusCodes.FORBIDDEN)
         })
 
     })
 
 })
 
-describe('DELETE /question', () => {
+describe('DELETE /questions', () => {
 
-    test('질문 삭제합니다.', async () => {
-        const res = await request(app)
-            .delete(`/question/${questionId}`)
-            .set('Authorization', `Bearer ${token}`)
+    describe('DELETE /answers', () => {
 
-        expect(res.statusCode).toBe(HttpStatusCodes.OK)
-    })
-
-    test('자신의 질문이 아닌 다른 질문을 삭제시 403을 반환합니다.', async () => {
-        const res = await request(app)
-            .delete(`/question/${questionId}`)
-            
-        expect(res.statusCode).toBe(HttpStatusCodes.FORBIDDEN)
-    })
-
-    describe('DELETE /answer', () => {
-        
         test('질문의 답변을 삭제합니다.', async () => {
             const res = await request(app)
-                .delete(`/question/${questionId}/answer/${answerId}`)
+                .delete(`/v1/questions/${questionId}/answers/${answerId}/`)
                 .set('Authorization', `Bearer ${token}`)
     
             expect(res.statusCode).toBe(HttpStatusCodes.OK)
         })
 
-        test('자신의 질문이 아닌 다른 질문을 삭제시 403을 반환합니다.', async () => {
-            const res = await request(app)
-                .delete(`/question/${questionId}/answer/${answerId}`)
-            
-            expect(res.statusCode).toBe(HttpStatusCodes.FORBIDDEN)
-        })
+    })
+    
+    test('질문 삭제합니다.', async () => {
+        const res = await request(app)
+            .delete(`/v1/questions/${questionId}/`)
+            .set('Authorization', `Bearer ${token}`)
 
+        expect(res.statusCode).toBe(HttpStatusCodes.OK)
     })
 
 })

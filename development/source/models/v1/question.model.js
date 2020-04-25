@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     Question.hasMany(models.Answer, {
-      as: 'answer',
+      as: 'answers',
       foreignKey: 'id'
     })
   }
