@@ -59,7 +59,7 @@ describe('POST /questions', () => {
                 .set('Authorization', `Bearer ${token}`)
 
             expect(res.statusCode).toBe(HttpStatusCodes.CREATED)
-            expect(res.body.data.answer.questionId).toBe(questionId.toString())
+            expect(res.body.data.answer.questionId).toBe(questionId)
             expect(res.body.data.answer.content).toBe(answerContent)
             
             answerId = res.body.data.answer.id

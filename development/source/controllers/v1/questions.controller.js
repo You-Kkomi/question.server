@@ -87,7 +87,7 @@ module.exports.createAnswer = async (req, res, next) => {
     try {
 
         const answerData = {
-            questionId: req.params.id,
+            questionId: req.question.id,
             userId: req.user.id,
             content: req.body.content
         }

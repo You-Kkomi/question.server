@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     Answer.associate = (models) => {
       Answer.belongsTo(models.Question, {
         as: 'questions',
-        foreignKey: 'id'
+        foreignKey: 'questionId'
       })
     }
 
