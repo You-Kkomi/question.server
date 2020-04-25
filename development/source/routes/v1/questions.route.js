@@ -23,12 +23,14 @@ router.route('/')
 router.route('/:id')
     .put(
         auth.check,
-        question.questionCheck,
+        question.checkQuestionExist,
+        question.checkQuestionOwner,
         controller.update
     )
     .delete(
         auth.check,
-        question.questionCheck,
+        question.checkQuestionExist,
+        question.checkQuestionOwner,
         controller.delete
     )
 
@@ -36,18 +38,21 @@ router.route('/:id/answers')
     .post(
         validator.body(validation.createAnswer),
         auth.check,
+        question.checkQuestionExist,
         controller.createAnswer
     )
 
 router.route('/:id/answers/:answerId')
     .put(
         auth.check,
-        question.answerCheck,
+        question.checkAnswerExist,
+        question.checkAnswerOwner,
         controller.updateAnswer
     )
     .delete(
         auth.check,
-        question.answerCheck,
+        question.checkAnswerExist,
+        question.checkAnswerOwner,
         controller.deleteAnswer
     )
 

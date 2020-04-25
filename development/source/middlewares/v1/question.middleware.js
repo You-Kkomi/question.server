@@ -4,7 +4,8 @@ const HttpStatusCodes = require('http-status-codes')
 const response = require('../../utils/response')
 const v1Models = require('../../models/v1')
 
-module.exports.questionCheck = async (req, res, next) => {
+
+module.exports.checkQuestionExist = async (req, res, next) => {
   try {
     const question = await v1Models.Question.findByPk(req.params.id, {
       include: [
@@ -19,10 +20,6 @@ module.exports.questionCheck = async (req, res, next) => {
       return response(res, '존재하지 않는 질문입니다.', {}, HttpStatusCodes.NOT_FOUND)
     }
 
-    if (question.userId != req.user.id) {
-      return response(res, '질문의 작성자가 아닙니다.', {}, HttpStatusCodes.FORBIDDEN)
-    }
-
     req.question = question
 
     next()
@@ -31,7 +28,18 @@ module.exports.questionCheck = async (req, res, next) => {
   }
 }
 
-module.exports.answerCheck = async (req, res, next) => {
+module.exports.checkQuestionOwner = async (req, res, next) => {
+  try {
+    if (req.question.userId != req.user.id) {
+      return response(res, '질문의 작성자가 아닙니다.', {}, HttpStatusCodes.FORBIDDEN)
+    }
+    next()
+  } catch (err) {
+    next(err)
+  }
+}
+
+module.exports.checkAnswerExist = async (req, res, next) => {
   try {
     const answer = await v1Models.Answer.findByPk(req.params.answerId)
 
@@ -39,12 +47,19 @@ module.exports.answerCheck = async (req, res, next) => {
       return response(res, '존재하지 않는 답변 입니다.', {}, HttpStatusCodes.NOT_FOUND)
     }
 
-    if (answer.userId != req.user.id) {
-      return response(res, '답변의 작성자가 아닙니다.', {}, HttpStatusCodes.FORBIDDEN)
-    }
-
     req.answer = answer
 
+    next()
+  } catch (err) {
+    next(err)
+  }
+}
+
+module.exports.checkAnswerOwner = async (req, res, next) => {
+  try {
+    if (req.answer.userId != req.user.id) {
+      return response(res, '답변의 작성자가 아닙니다.', {}, HttpStatusCodes.FORBIDDEN)
+    }
     next()
   } catch (err) {
     next(err)
