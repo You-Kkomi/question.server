@@ -24,21 +24,24 @@
 							"urlencoded": [
 								{
 									"key": "nickname",
-									"value": "nickname_postman_2",
+									"value": "nickname_postman_27",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "5678",
+									"value": "1234",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/v1/auth/login",
+							"raw": "http://question.api-namu.kro.kr:3000/v1/auth/login",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
 							],
 							"port": "3000",
 							"path": [
@@ -123,12 +126,23 @@
 				{
 					"name": "사용자 조회",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3MTc4ODQ1LCJleHAiOjE1ODcxNzg4NDZ9.VY_v7iYegMcJd-d_QeTEspzmZWj7SA-INyI9CG8Dr74",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "Baerer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzIiLCJpYXQiOjE1ODcxNTkwNDUsImV4cCI6MTU4NzE2MDA0NX0.P2fhJwA6NKjQX009d5RDQEkuPwTWESJkG2uxkcBqvzI",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {
@@ -157,7 +171,7 @@
 							"urlencoded": [
 								{
 									"key": "nickname",
-									"value": "nickname_postman_2",
+									"value": "nickname_postman_27",
 									"type": "text"
 								},
 								{
@@ -168,10 +182,13 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/v1/users/",
+							"raw": "http://question.api-namu.kro.kr:3000/v1/users/",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
 							],
 							"port": "3000",
 							"path": [
@@ -321,6 +338,317 @@
 								"v1",
 								"users",
 								"profiles"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Question",
+			"item": [
+				{
+					"name": "질문 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3ODMyMDg2LCJleHAiOjE1ODc5MTg0ODZ9.z9la_PRMn_f65MZNygpCw5y9PZIE3uG1-bGiE4TDu1U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://question.api-namu.kro.kr:3000/v1/questions",
+							"protocol": "http",
+							"host": [
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "질문 등록",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3ODMyMDg2LCJleHAiOjE1ODc5MTg0ODZ9.z9la_PRMn_f65MZNygpCw5y9PZIE3uG1-bGiE4TDu1U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "hohohohohohoho",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "hello!!!",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://question.api-namu.kro.kr:3000/v1/questions/",
+							"protocol": "http",
+							"host": [
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"questions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "질문 삭제",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3ODMyMDg2LCJleHAiOjE1ODc5MTg0ODZ9.z9la_PRMn_f65MZNygpCw5y9PZIE3uG1-bGiE4TDu1U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://question.api-namu.kro.kr:3000/v1/questions/1",
+							"protocol": "http",
+							"host": [
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"questions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "질문 수정",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3ODMyMDg2LCJleHAiOjE1ODc5MTg0ODZ9.z9la_PRMn_f65MZNygpCw5y9PZIE3uG1-bGiE4TDu1U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "edit on postman",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "edit on postman",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://question.api-namu.kro.kr:3000/v1/questions/2",
+							"protocol": "http",
+							"host": [
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"questions",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Answer",
+			"item": [
+				{
+					"name": "답변 등록",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3ODMzMjg1LCJleHAiOjE1ODc5MTk2ODV9.bcul_yVJjxMtUtfv_lNM7BQONT9ExhiMFUsNvY2WPYM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "insert answer on postman",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://question.api-namu.kro.kr:3000/v1/questions/2/answers",
+							"protocol": "http",
+							"host": [
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"questions",
+								"2",
+								"answers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "답변 삭제",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3ODMzMjg1LCJleHAiOjE1ODc5MTk2ODV9.bcul_yVJjxMtUtfv_lNM7BQONT9ExhiMFUsNvY2WPYM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://question.api-namu.kro.kr:3000/v1/questions/1/answers/12",
+							"protocol": "http",
+							"host": [
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"questions",
+								"1",
+								"answers",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "답변 수정",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmlja25hbWUiOiJuaWNrbmFtZV9wb3N0bWFuXzI3IiwiaWF0IjoxNTg3ODMzMjg1LCJleHAiOjE1ODc5MTk2ODV9.bcul_yVJjxMtUtfv_lNM7BQONT9ExhiMFUsNvY2WPYM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "content",
+									"value": "edit answer on postmansadfasbdofgnadsipfadsipfnipdsanfosandfoisdanfoiasdnofnsadiof",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://question.api-namu.kro.kr:3000/v1/questions/2/answers/17",
+							"protocol": "http",
+							"host": [
+								"question",
+								"api-namu",
+								"kro",
+								"kr"
+							],
+							"port": "3000",
+							"path": [
+								"v1",
+								"questions",
+								"2",
+								"answers",
+								"17"
 							]
 						}
 					},
