@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Question.hasMany(models.Answer, {
       as: 'answers',
-      foreignKey: 'id'
+      foreignKey: 'questionId'
     })
   }
   return Question
