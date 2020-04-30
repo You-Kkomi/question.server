@@ -3,9 +3,6 @@ module.exports = {
     {
       name: 'API',
       script: './bin/www',
-
-      // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
-      args: 'one two',
       instances: 1,
       autorestart: true,
       watch: false,
@@ -15,10 +12,12 @@ module.exports = {
       },
       env_production: {
         NODE_ENV: 'production'
-      }
+      },
+      merge_logs: true
+      // error_file: './logs/aha-api-err.log',
+      // out_file: './logs/aha-api-out.log'
     }
   ],
-
   deploy: {
     production: {
       key: '~/Donwloads/namu.pem',
