@@ -77,7 +77,7 @@ describe('GET /questions', () => {
             .query(`id=${questionId}`)
             .set('Authorization', `Bearer ${token}`)
 
-        const question = res.body.data.question[0]
+        const question = res.body.data.questions[0]
 
         expect(res.statusCode).toBe(HttpStatusCodes.OK)
         expect(question.title).toBe(questionTitle)
@@ -91,26 +91,11 @@ describe('GET /questions', () => {
             .query(`title=a`)
             .set('Authorization', `Bearer ${token}`)
 
-        const question = res.body.data.question[0]
+        const question = res.body.data.questions[0]
 
         expect(res.statusCode).toBe(HttpStatusCodes.OK)
         expect(question.title).toBe(questionTitle)
         expect(question.content).toBe(questionContent)
-        expect(question.answers).toBeTruthy()
-    })
-
-    test('작성자를 기준으로 검색을 하고 질문과 답변을 함께 가져옵니다.', async () => {
-        const res = await request(app)
-            .get('/v1/questions')
-            .query(`writer=${user.nickname}`)
-            .set('Authorization', `Bearer ${token}`)
-
-        expect(res.statusCode).toBe(HttpStatusCodes.OK)
-
-        const question = res.body.data.question[0]
-
-        expect(question.title).toBe(questionTitle)
-        expect(question.title).toBe(questionContent)
         expect(question.answers).toBeTruthy()
     })
 
