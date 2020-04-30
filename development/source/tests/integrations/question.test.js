@@ -48,6 +48,30 @@ describe('POST /questions', () => {
         questionId = res.body.data.question.id
     })
 
+    test('질문을 추가할 떄 제목이 빈칸이면 400을 반환합니다.', async () => {
+        const res = await request(app)
+            .post('/v1/questions/')
+            .send({
+                title: '',
+                content: questionContent
+            })
+            .set('Authorization', `Bearer ${token}`)
+        
+        expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
+    })
+
+    test('질문을 추가할 떄 본문이 빈칸이면 400을 반환합니다.', async () => {
+        const res = await request(app)
+            .post('/v1/questions/')
+            .send({
+                title: questionTitle,
+                content: ''
+            })
+            .set('Authorization', `Bearer ${token}`)
+        
+        expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
+    })
+
     describe('POST /answers', () => {
 
         test('질문에 답변을 등록합니다.', async () => {
