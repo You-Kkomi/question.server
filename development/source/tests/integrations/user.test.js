@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt')
 let nickname
 let password
 let token
+let user
 
 beforeAll(async () => {
   nickname = randomString()
@@ -34,6 +35,7 @@ describe('POST /users', () => {
     expect(isMatch).toBe(true)
 
     token = jwtUtil.generate({ id: res.body.data.id, nickname: nickname })
+    user = res.body.data
   })
 
   test('이미 존재하는 닉넴으로 유저를 생성하면 400 에러를 발생시킵니다.', async () => {
@@ -66,6 +68,15 @@ describe('GET /users', () => {
       .set('Authorization', `Bearer ${token}`)
 
     expect(res.statusCode).toBe(HttpStatusCodes.OK)
+  })
+
+  describe('GET /user/:id', () => {
+    test('다른 사람의 유저 정보를 조회 합니다.', async () => {
+      let res = await request(app)
+        .get(`/v1/users/${user.id}`)
+
+        expect(res.statusCode).toBe(HttpStatusCodes.OK)
+    })
   })
 })
 

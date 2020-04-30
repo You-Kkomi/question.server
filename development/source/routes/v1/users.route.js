@@ -39,4 +39,9 @@ router.route('/profiles')
     controller.clearProfile
   )
 
+router.route('/:id')
+    .get(
+      controller.get
+    )
+
 module.exports = router

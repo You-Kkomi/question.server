@@ -9,6 +9,11 @@ const response = require('../../utils/response')
 
 module.exports.get = async (req, res, next) => {
   try {
+
+    if (req.params.id) {
+      return response(res, '', { user: await v1Models.User.findByPk(req.params.id) })
+    }
+
     return response(res, '', { user: req.user })
   } catch (err) {
     next(err)
