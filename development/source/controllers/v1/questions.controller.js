@@ -9,10 +9,6 @@ module.exports.get = async (req, res, next) => {
     try {
         const where = {}
 
-        if (req.query.id) {
-            where.id = req.query.id
-        }
-
         if (req.query.title) {
             where.title = {
                 [Op.like]: `%${req.query.title}%`
@@ -33,6 +29,14 @@ module.exports.get = async (req, res, next) => {
         })
 
         return response(res, '질문을 가져왔습니다.', { questions })
+    } catch (err) {
+        next(err)
+    }
+}
+
+module.exports.getOne = async (req, res, next) => {
+    try {
+        return response(res, '질문을 조회하였습니다.', { question: req.question })
     } catch (err) {
         next(err)
     }

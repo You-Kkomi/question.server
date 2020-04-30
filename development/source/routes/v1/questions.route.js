@@ -16,11 +16,14 @@ router.route('/')
         controller.create
     )
     .get(
-        auth.check,
         controller.get
     )
 
 router.route('/:id')
+    .get(
+        question.checkQuestionExist,
+        controller.getOne
+    )
     .put(
         auth.check,
         question.checkQuestionExist,
