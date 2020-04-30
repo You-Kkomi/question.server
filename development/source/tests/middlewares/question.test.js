@@ -52,6 +52,7 @@ describe('질문 유효성 검사 테스트', () => {
     let res = await request(app)
       .put(`/v1/questions/-1/`)
       .send({
+        title: updatedTitle,
         content: updatedContent
       })
       .set('Authorization', `Bearer ${ token }`)
@@ -114,7 +115,7 @@ describe('답변 유효성 검사 테스트', () => {
 
   test('존재하지 않는 답변을 요청 할 경우 404를 반환합니다.', async () => {
     let res = await request(app)
-      .put(`/v1/questions/${question.id}/answer/-1`)
+      .put(`/v1/questions/${question.id}/answers/-1`)
       .send({
         content: updatedContent
       })

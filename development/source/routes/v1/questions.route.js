@@ -26,6 +26,7 @@ router.route('/:id')
     )
     .put(
         auth.check,
+        validator.body(validation.createQuestion),
         question.checkQuestionExist,
         question.checkQuestionOwner,
         controller.update
@@ -48,6 +49,7 @@ router.route('/:id/answers')
 router.route('/:id/answers/:answerId')
     .put(
         auth.check,
+        validator.body(validation.createAnswer),
         question.checkQuestionExist,
         question.checkAnswerExist,
         question.checkAnswerOwner,

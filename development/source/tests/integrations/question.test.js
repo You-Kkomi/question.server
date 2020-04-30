@@ -118,9 +118,33 @@ describe('PUT /questions', () => {
         expect(res.statusCode).toBe(HttpStatusCodes.OK)
     })
 
+    test('질문의 제목을 빈칸으로 수정 할 경우 400 에러를 발생시킵니다.', async () => {
+        const res = await request(app)
+            .put(`/v1/questions/${questionId}/`)
+            .send({
+                title: '',
+                content: updatedContent
+            })
+            .set('Authorization', `Bearer ${token}`)
+        
+        expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
+    })
+
+    test('질문의 본문을 빈칸으로 수정 할 경우 400 에러를 발생시킵니다.', async () => {
+        const res = await request(app)
+            .put(`/v1/questions/${questionId}/`)
+            .send({
+                title: updatedTitle,
+                content: ''
+            })
+            .set('Authorization', `Bearer ${token}`)
+        
+        expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
+    })
+
     describe('PUT /answers', () => {
         
-        test('질문에 답변을 수정합니다.', async () => {
+        test('답변을 수정합니다.', async () => {
             const res = await request(app)
                 .put(`/v1/questions/${questionId}/answers/${answerId}/`)
                 .send({
@@ -129,6 +153,17 @@ describe('PUT /questions', () => {
                 .set('Authorization', `Bearer ${token}`)
         
             expect(res.statusCode).toBe(HttpStatusCodes.OK)
+        })
+
+        test('답변을 빈칸으로 수정 할 경우 400 에러를 발생시킵니다.', async () => {
+            const res = await request(app)
+                .put(`/v1/questions/${questionId}/answers/${answerId}/`)
+                .send({
+                    content: ''
+                })
+                .set('Authorization', `Bearer ${token}`)
+        
+            expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
         })
 
     })
