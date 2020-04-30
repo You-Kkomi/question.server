@@ -20,13 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         type: DataTypes.INTEGER.UNSIGNED
       },
-      parentId: {
-        reference: {
-          model: 'answers',
-          key: 'id'
-        },
-        type: DataTypes.INTEGER.UNSIGNED
-      },
       content: {
         allowNull: false,
         type: DataTypes.STRING
@@ -40,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       Answer.belongsTo(models.Question, {
         as: 'questions',
         foreignKey: 'questionId'
+      })
+
+      Answer.belongsTo(models.Question, {
+        as: 'users',
+        foreignKey: 'userId'
       })
     }
 
