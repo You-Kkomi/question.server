@@ -23,11 +23,12 @@ module.exports = {
     production: {
       key: '~/Donwloads/namu.pem',
       user: 'ubuntu',
-      host: 'question.api-namu.kro.kr',
+      host: 'question.api-namu.kro.kr:3000',
       ref: 'origin/master',
       repo: 'git@github.com:You-Kkomi/question.server.git',
       path: '/home/ubuntu/question.server/development',
-      'post-deploy': 'npm install && npm run build && cd /home/ubuntu/question.server/production && npm i --only=production && pm2 reload all'
+      'post-deploy':
+       'npm install && npm run build && cd /home/ubuntu/question.server/production && npm i --only=production && pm2 reload all'
     }
   }
 }

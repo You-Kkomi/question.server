@@ -7,6 +7,7 @@
     "test": "cross-env NODE_ENV=test ./node_modules/.bin/jest --coverage",
     "migrate:dev": "sequelize db:migrate",
     "migrate:test": "cross-env NODE_ENV=test sequelize db:migrate",
+    "build": "gulp clean && gulp babel && gulp copy && gulp copy-env",
     "dev": "pm2 start ecosystem.config.js --env development",
     "prod": "pm2 start ecosystem.config.js --env production"
   },
