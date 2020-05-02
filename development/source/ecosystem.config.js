@@ -22,7 +22,7 @@ module.exports = {
     production: {
       key: '~/Donwloads/namu.pem',
       user: 'ubuntu',
-      host: 'question.api-namu.kro.kr:3000',
+      host: 'question.api-namu.kro.kr',
       ref: 'origin/master',
       repo: 'git@github.com:You-Kkomi/question.server.git',
       path: '/home/ubuntu/question.server/development',
