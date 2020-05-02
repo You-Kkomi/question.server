@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcrypt')
 const uuid4 = require('../../utils/uuid4')
+const crypto = require('../../utils/crypto')
 
 const SALT_ROUND = 10
 
@@ -11,8 +12,21 @@ module.exports = (sequelize, DataTypes) => {
     {
       nickname: {
         allownull: false,
-        unique: true,
         type: DataTypes.STRING(20)
+      },
+      nickHash: {
+        allownull: false,
+        unique: true,
+        type: 'BINARY(16)',
+        get: function () {
+          const nickHash = this.getDataValue('nickHash')
+
+          if (!nickHash) {
+            return null
+          }
+
+          return Buffer.from(nickHash).toString()
+        }
       },
       password: {
         allownull: false,
@@ -51,6 +65,10 @@ module.exports = (sequelize, DataTypes) => {
       if (user.changed('password')) {
         const salt = await bcrypt.genSalt(SALT_ROUND)
         user.password = await bcrypt.hash(user.password, salt)
+      }
+
+      if (user.changed('nickname')) {
+        user.nickHash = Buffer.from(crypto.md5(user.nickname), 'hex')
       }
     } catch (err) {
       throw err
