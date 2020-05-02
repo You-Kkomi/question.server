@@ -22,6 +22,8 @@ module.exports.check = async (req, res, next) => {
         .json({ message: '토큰이 잘못 되었습니다.' })
     }
 
+    // TODO : 꼭 유저 캐시를 하세요!
+
     const user = await v1Models.User.findByPk(payload.id, {
       include: [
         {

@@ -4,6 +4,7 @@ const _ = require('lodash')
 const bcrypt = require('bcrypt')
 
 const HttpStatusCodes = require('http-status-codes')
+const crypto = require('../../utils/crypto')
 const v1Models = require('../../models/v1')
 const response = require('../../utils/response')
 
@@ -24,7 +25,7 @@ module.exports.create = async (req, res, next) => {
   try {
     var user = await v1Models.User.findOne({
       where: {
-        nickname: req.body.nickname
+        nickHash: Buffer.from(crypto.md5(req.body.nickname), 'hex')
       }
     })
 

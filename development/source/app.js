@@ -16,15 +16,10 @@ app.use(cors())
 app.use(helmet())
 app.use(logger('combined'))
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({
+  extended: false
+}))
 app.use(cookieParser())
-
-// app.use((req, res, next) => {
-//   console.log(req.headers)
-//   console.log(req.body)
-//   console.log(res.body)
-//   next()
-// })
 
 app.use('/', require('./routes'))
 
@@ -39,14 +34,16 @@ app.use(function (err, req, res, next) {
   res.locals.error = process.env.NODE_ENV === 'development' ? err : {}
 
   if (err && err.error && err.error.isJoi) {
-    return res.status(400).json({
+    return res.status(HttpStatusCode.UNPROCESSABLE_ENTITY).json({
       message: '잘못된 요청입니다.',
       data: err.error.toString()
     })
   }
 
   return res.status(err.status || HttpStatusCode.INTERNAL_SERVER_ERROR)
-    .json({ err })
+    .json({
+      err
+    })
 })
 
 module.exports = app
