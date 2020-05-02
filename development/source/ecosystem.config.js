@@ -20,7 +20,7 @@ module.exports = {
   ],
   deploy: {
     production: {
-      key: '~/Donwloads/namu.pem',
+      key: '~/Downloads/namu.pem',
       user: 'ubuntu',
       host: 'question.api-namu.kro.kr',
       ref: 'origin/master',
