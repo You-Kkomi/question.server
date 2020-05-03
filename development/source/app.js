@@ -10,7 +10,11 @@ const cors = require('cors')
 const helmet = require('helmet')
 const HttpStatusCode = require('http-status-codes')
 
+const Sentry = require('@sentry/node')
+
 const app = express()
+
+Sentry.init({ dsn: 'https://af99866f568946c08b868cabb6a20370@o386614.ingest.sentry.io/5221132' })
 
 app.use(cors())
 app.use(helmet())
@@ -21,7 +25,11 @@ app.use(express.urlencoded({
 }))
 app.use(cookieParser())
 
+app.use(Sentry.Handlers.requestHandler())
+
 app.use('/', require('./routes'))
+
+app.use(Sentry.Handlers.errorHandler())
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
