@@ -108,18 +108,25 @@ describe('GET /questions', () => {
         expect(question.answers).toBeTruthy()
     })
 
-    test('타이틀을 기준으로 검색을 하고 질문과 답변을 함께 가져옵니다.', async () => {
+    test('검색어를 가지고 제목을 기준으로 검색할 때 해당 검색어가 포함된 질문 목록이 반환 됩니다.', async () => {
+
+        // given
+        let searchWord = 'a'
+
+        // when
         const res = await request(app)
             .get(`/v1/questions`)
-            .query(`title=a`)
+            .query(`title=${searchWord}`)
 
+        // then
         expect(res.statusCode).toBe(HttpStatusCodes.OK)
 
-        const question = res.body.data.questions[0]
-
-        expect(question.title).toBe(questionTitle)
-        expect(question.content).toBe(questionContent)
-        expect(question.answers).toBeTruthy()
+        const question = res.body.data.questions.find( question => !question.title.includes(searchWord) )
+        
+        console.log(res.body.data.questions)
+        console.log(question)
+        
+        expect(question).toBe(undefined)
     })
 
 })
