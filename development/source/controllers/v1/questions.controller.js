@@ -5,14 +5,14 @@ const response = require('../../utils/response')
 const v1Models = require('../../models/v1')
 const Op = sequelize.Op
 
-module.exports.get = async (req, res, next) => {
+module.exports.get = async(req, res, next) => {
   try {
     const where = {}
 
     if (req.query.title) {
-        where.title = {
-            [Op.like]: `%${req.query.title}%`
-        }
+      where.title = {
+        [ Op.like ]: `%${req.query.title}%`
+      }
     }
 
     const questions = await v1Models.Question.findAll({
@@ -37,7 +37,7 @@ module.exports.get = async (req, res, next) => {
   }
 }
 
-module.exports.getOne = async (req, res, next) => {
+module.exports.getOne = async(req, res, next) => {
   try {
     return response(res, '질문을 조회하였습니다.', { question: req.question })
   } catch (err) {
@@ -45,7 +45,7 @@ module.exports.getOne = async (req, res, next) => {
   }
 }
 
-module.exports.create = async (req, res, next) => {
+module.exports.create = async(req, res, next) => {
   try {
     const question = await v1Models.Question.create({
       userId: req.user.id,
@@ -59,14 +59,14 @@ module.exports.create = async (req, res, next) => {
   }
 }
 
-module.exports.update = async (req, res, next) => {
+module.exports.update = async(req, res, next) => {
   try {
     await v1Models.Question.update({
       title: req.body.title,
       content: req.body.content
     }, {
       where: {
-          id: req.params.id
+        id: req.params.id
       }
     })
 
@@ -76,7 +76,7 @@ module.exports.update = async (req, res, next) => {
   }
 }
 
-module.exports.delete = async (req, res, next) => {
+module.exports.delete = async(req, res, next) => {
   try {
     await v1Models.Question.destroy({
       where: {
@@ -90,7 +90,7 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
-module.exports.createAnswer = async (req, res, next) => {
+module.exports.createAnswer = async(req, res, next) => {
   try {
     const answerData = {
       questionId: req.question.id,
@@ -110,7 +110,7 @@ module.exports.createAnswer = async (req, res, next) => {
   }
 }
 
-module.exports.updateAnswer = async (req, res, next) => {
+module.exports.updateAnswer = async(req, res, next) => {
   try {
     await v1Models.Answer.update({
       content: req.body.content
@@ -126,7 +126,7 @@ module.exports.updateAnswer = async (req, res, next) => {
   }
 }
 
-module.exports.deleteAnswer = async (req, res, next) => {
+module.exports.deleteAnswer = async(req, res, next) => {
   try {
     await v1Models.Answer.destroy({
       where: {

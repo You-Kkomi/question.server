@@ -7,9 +7,10 @@ const v1Models = require('../../models/v1')
 const jwtUtil = require('../../utils/jwt')
 
 let user
+
 let token
 
-beforeAll(async () => {
+beforeAll(async() => {
   user = await v1Models.User.create({
     nickname: randomString(),
     password: randomString()
@@ -21,25 +22,25 @@ beforeAll(async () => {
 afterAll(() => v1Models.sequelize.close())
 
 describe('auth middleware test', () => {
-  test('request with token', async () => {
+  test('request with token', async() => {
     let res = await request(app)
-        .get('/v1/users')
-        .set('Authorization', `Bearer ${ token }`)
+      .get('/v1/users')
+      .set('Authorization', `Bearer ${ token }`)
 
     expect(res.statusCode).toBe(HttpStatusCodes.OK)
   })
 
-  test('request without token', async () => {
+  test('request without token', async() => {
     let res = await request(app)
-        .get('/v1/users')
+      .get('/v1/users')
 
     expect(res.statusCode).toBe(HttpStatusCodes.FORBIDDEN)
   })
 
-  test('request with invalide token', async () => {
+  test('request with invalide token', async() => {
     let res = await request(app)
-        .get('/v1/users')
-        .set('Authorization', `Bearer aosdhialis`)
+      .get('/v1/users')
+      .set('Authorization', 'Bearer aosdhialis')
 
     expect(res.statusCode).toBe(HttpStatusCodes.FORBIDDEN)
   })

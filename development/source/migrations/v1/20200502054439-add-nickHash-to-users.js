@@ -1,7 +1,5 @@
-'use strict'
-
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface) {
     await queryInterface.addColumn('users', 'nickHash', {
       allowNull: false,
       unique: true,
@@ -12,7 +10,7 @@ module.exports = {
     await queryInterface.removeIndex('users', 'nickname')
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.removeColumn('users', 'nickHash')
   }
 }

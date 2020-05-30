@@ -1,5 +1,3 @@
-'use strict'
-
 module.exports = (sequelize, DataTypes) => {
 
   const Answer = sequelize.define(
@@ -29,17 +27,17 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true
     })
 
-    Answer.associate = (models) => {
-      Answer.belongsTo(models.Question, {
-        as: 'questions',
-        foreignKey: 'questionId'
-      })
+  Answer.associate = (models) => {
+    Answer.belongsTo(models.Question, {
+      as: 'questions',
+      foreignKey: 'questionId'
+    })
 
-      Answer.belongsTo(models.Question, {
-        as: 'users',
-        foreignKey: 'userId'
-      })
-    }
+    Answer.belongsTo(models.Question, {
+      as: 'users',
+      foreignKey: 'userId'
+    })
+  }
 
   return Answer
 

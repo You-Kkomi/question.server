@@ -1,7 +1,4 @@
-'use strict'
-
 const bcrypt = require('bcrypt')
-const uuid4 = require('../../utils/uuid4')
 const crypto = require('../../utils/crypto')
 
 const SALT_ROUND = 10
@@ -18,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         allownull: false,
         unique: true,
         type: 'BINARY(16)',
-        get: function () {
+        get: function() {
           const nickHash = this.getDataValue('nickHash')
 
           if (!nickHash) {
@@ -50,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     })
   }
 
-  User.afterCreate(async (user) => {
+  User.afterCreate(async(user) => {
     try {
       await sequelize.models.UserProfile.create({
         userId: user.id
@@ -60,10 +57,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   })
 
-  User.beforeSave(async (user) => {
+  User.beforeSave(async(user) => {
     try {
       if (user.changed('password')) {
         const salt = await bcrypt.genSalt(SALT_ROUND)
+
         user.password = await bcrypt.hash(user.password, salt)
       }
 
@@ -75,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   })
 
-  User.prototype.checkPassword = async function (password) {
+  User.prototype.checkPassword = async function(password) {
     try {
       const isMatch = await bcrypt.compare(password, this.getDataValue('password'))
 

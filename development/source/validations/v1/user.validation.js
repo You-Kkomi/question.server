@@ -1,5 +1,3 @@
-'use strict'
-
 const Joi = require('@hapi/joi')
 
 module.exports.create = Joi.object({

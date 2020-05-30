@@ -4,7 +4,7 @@ const response = require('../../utils/response')
 const v1Models = require('../../models/v1')
 const jwt = require('../../utils/jwt')
 
-module.exports.login = async (req, res, next) => {
+module.exports.login = async(req, res, next) => {
   try {
     const password = req.body.password
 
@@ -30,7 +30,7 @@ module.exports.login = async (req, res, next) => {
   }
 }
 
-module.exports.logout = async (req, res, next) => {
+module.exports.logout = async(req, res) => {
   try {
 
     return response(res, '로그아웃 하였습니다.')

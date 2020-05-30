@@ -1,9 +1,7 @@
-'use strict'
-
-// eslint-disable-next-line newline-per-chained-call
 require('dotenv').config()
 
 if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line global-require
   require('@babel/register')
 }
 

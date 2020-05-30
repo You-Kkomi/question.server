@@ -1,5 +1,3 @@
-'use strict'
-
 const validator = require('express-joi-validation').createValidator()
 const express = require('express')
 const router = express.Router()
@@ -40,8 +38,8 @@ router.route('/profiles')
   )
 
 router.route('/:id')
-    .get(
-      controller.get
-    )
+  .get(
+    controller.get
+  )
 
 module.exports = router

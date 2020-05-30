@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   return res.json({ message: 'pong' })
 })
 
-router.get('/debug-sentry', (req, res, next) => {
+router.get('/debug-sentry', () => {
   throw new Error('Exception on debug sentry')
 })
 

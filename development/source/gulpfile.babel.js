@@ -26,7 +26,7 @@ const paths = {
 // Clean up dist and coverage directory
 gulp.task(
   'clean',
-  async () => await del.sync(
+  async() => await del.sync(
     [
       '../../production/bin',
       '../../production/config',

@@ -1,17 +1,16 @@
-'use strict'
 const HttpStatusCodes = require('http-status-codes')
 
 const jwt = require('../../utils/jwt')
 const v1Models = require('../../models/v1')
 
-module.exports.check = async (req, res, next) => {
+module.exports.check = async(req, res, next) => {
   try {
     if (!req.headers.authorization) {
       return res.status(HttpStatusCodes.FORBIDDEN)
         .json({ message: '권한이 없습니다.' })
     }
 
-    const token = req.headers.authorization.split(' ')[1]
+    const token = req.headers.authorization.split(' ')[ 1 ]
 
     let payload
 

@@ -4,21 +4,23 @@ const jwt = require('../../utils/jwt')
 
 describe('jwt logic test', () => {
     
-    let payload
-    let token
+  let payload
 
-    beforeAll(() => {
-        payload = { test: 'test' }
-        token = jwt.generate(payload)
-    })
+  let token
 
-    test('jwt generate test', () => {
-        expect(token).toMatch(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
-    })
+  beforeAll(() => {
+    payload = { test: 'test' }
+    token = jwt.generate(payload)
+  })
 
-    test('jwt check test', () => {
-        const result = jwt.check(token)
-        expect(result.test).toBe(payload.test)
-    })
+  test('jwt generate test', () => {
+    expect(token).toMatch(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/)
+  })
+
+  test('jwt check test', () => {
+    const result = jwt.check(token)
+
+    expect(result.test).toBe(payload.test)
+  })
 
 })

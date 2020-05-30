@@ -8,11 +8,14 @@ const jwtUtil = require('../../utils/jwt')
 const bcrypt = require('bcrypt')
 
 let nickname
+
 let password
+
 let token
+
 let user
 
-beforeAll(async () => {
+beforeAll(async() => {
   nickname = randomString()
   password = randomString()
 })
@@ -20,7 +23,7 @@ beforeAll(async () => {
 afterAll(() => v1Models.sequelize.close())
 
 describe('POST /users', () => {
-  test('유저를 생성합니다.', async () => {
+  test('유저를 생성합니다.', async() => {
     let res = await request(app)
       .post('/v1/users')
       .send({
@@ -38,7 +41,7 @@ describe('POST /users', () => {
     user = res.body.data
   })
 
-  test('이미 존재하는 닉넴으로 유저를 생성하면 400 에러를 발생시킵니다.', async () => {
+  test('이미 존재하는 닉넴으로 유저를 생성하면 400 에러를 발생시킵니다.', async() => {
     let res = await request(app)
       .post('/v1/users')
       .send({
@@ -49,7 +52,7 @@ describe('POST /users', () => {
     expect(res.statusCode).toBe(HttpStatusCodes.BAD_REQUEST)
   })
 
-  test('닉네임의 길이가 20보다 크다면 400 에러를 발생시킵니다.', async () => {
+  test('닉네임의 길이가 20보다 크다면 400 에러를 발생시킵니다.', async() => {
     let res = await request(app)
       .post('/v1/users/')
       .send({
@@ -62,7 +65,7 @@ describe('POST /users', () => {
 })
 
 describe('GET /users', () => {
-  test('유저를 조회할때 유저의 프로필도 함께 조회를 합니다.', async () => {
+  test('유저를 조회할때 유저의 프로필도 함께 조회를 합니다.', async() => {
     let res = await request(app)
       .get('/v1/users')
       .set('Authorization', `Bearer ${token}`)
@@ -71,18 +74,18 @@ describe('GET /users', () => {
   })
 
   describe('GET /user/:id', () => {
-    test('다른 사람의 유저 정보를 조회 합니다.', async () => {
+    test('다른 사람의 유저 정보를 조회 합니다.', async() => {
       let res = await request(app)
         .get(`/v1/users/${user.id}`)
 
-        expect(res.statusCode).toBe(HttpStatusCodes.OK)
+      expect(res.statusCode).toBe(HttpStatusCodes.OK)
     })
   })
 })
 
 describe('PUT /users', () => {
   describe('PUT /', () => {
-    test('유저의 패스워드를 수정합니다.', async () => {
+    test('유저의 패스워드를 수정합니다.', async() => {
       let res = await request(app)
         .put('/v1/users')
         .send({
@@ -95,7 +98,7 @@ describe('PUT /users', () => {
   })
 
   describe('PUT /profiles', () => {
-    test('유저의 프로필을 수정합니다.', async () => {
+    test('유저의 프로필을 수정합니다.', async() => {
       let res = await request(app)
         .put('/v1/users/profiles')
         .send({
@@ -111,7 +114,7 @@ describe('PUT /users', () => {
 
 describe('DELETE /users', () => {
   describe('DELETE /profiles', () => {
-    test('유저의 프로필을 초기화 합니다.', async () => {
+    test('유저의 프로필을 초기화 합니다.', async() => {
       let res = await request(app)
         .delete('/v1/users/profiles')
         .set('Authorization', `Bearer ${token}`)
@@ -123,7 +126,7 @@ describe('DELETE /users', () => {
   })
 
   describe('DELETE /', () => {
-    test('유저를 삭제합니다.', async () => {
+    test('유저를 삭제합니다.', async() => {
       let res = await request(app)
         .delete('/v1/users')
         .set('Authorization', `Bearer ${token}`)

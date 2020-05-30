@@ -1,5 +1,3 @@
-'use strict'
-
 require('dotenv').config()
 
 const createError = require('http-errors')
@@ -32,12 +30,12 @@ app.use('/', require('./routes'))
 app.use(Sentry.Handlers.errorHandler())
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   next(createError(HttpStatusCode.NOT_FOUND))
 })
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use((err, req, res) => {
   res.locals.message = err.message
   res.locals.error = process.env.NODE_ENV === 'development' ? err : {}
 
