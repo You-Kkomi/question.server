@@ -1,18 +1,15 @@
-'use strict'
-
-const _ = require('lodash')
 const bcrypt = require('bcrypt')
 
 const HttpStatusCodes = require('http-status-codes')
 const crypto = require('../../utils/crypto')
 const v1Models = require('../../models/v1')
+const userRepo = require('../../repos/v1/users.repo')
 const response = require('../../utils/response')
 
-module.exports.get = async (req, res, next) => {
+module.exports.get = async(req, res, next) => {
   try {
-
     if (req.params.id) {
-      return response(res, '', { user: await v1Models.User.findByPk(req.params.id) })
+      return response(res, '', { user: await userRepo.load(req.params.id) })
     }
 
     return response(res, '', { user: req.user })
@@ -21,9 +18,9 @@ module.exports.get = async (req, res, next) => {
   }
 }
 
-module.exports.create = async (req, res, next) => {
+module.exports.create = async(req, res, next) => {
   try {
-    var user = await v1Models.User.findOne({
+    let user = await v1Models.User.findOne({
       where: {
         nickHash: Buffer.from(crypto.md5(req.body.nickname), 'hex')
       }
@@ -41,7 +38,7 @@ module.exports.create = async (req, res, next) => {
   }
 }
 
-module.exports.update = async (req, res, next) => {
+module.exports.update = async(req, res) => {
   const salt = await bcrypt.genSalt(10)
   const password = await bcrypt.hash(req.body.password, salt)
 
@@ -56,7 +53,7 @@ module.exports.update = async (req, res, next) => {
   return response(res, '비밀번호를 수정했습니다.')
 }
 
-module.exports.destroy = async (req, res, next) => {
+module.exports.destroy = async(req, res) => {
   await v1Models.User.destroy({
     where: {
       id: req.user.id
@@ -66,9 +63,9 @@ module.exports.destroy = async (req, res, next) => {
   return response(res, '사용자를 삭제했습니다.')
 }
 
-module.exports.updateProfile = async (req, res, next) => {
+module.exports.updateProfile = async(req, res, next) => {
   try {
-    var profile = req.user.profile
+    let profile = req.user.profile
 
     await profile.update(req.body)
 
@@ -78,7 +75,7 @@ module.exports.updateProfile = async (req, res, next) => {
   }
 }
 
-module.exports.clearProfile = async (req, res, next) => {
+module.exports.clearProfile = async(req, res, next) => {
   try {
     const profile = req.user.profile
 
