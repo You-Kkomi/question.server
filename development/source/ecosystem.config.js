@@ -28,7 +28,7 @@ module.exports = {
       repo: 'git@github.com:You-Kkomi/question.server.git',
       path: '/home/ubuntu/question.server/development',
       'post-deploy':
-       'npm install && npm run build && cd /home/ubuntu/question.server/production && npm i --only=production && ~/.npm-global/bin/sequelize db:migrate && ~/.npm-global/bin/pm2 reload all'
+       'npm install && npm run build && cd /home/ubuntu/question.server/production && npm i --only=production && ~/.npm-global/bin/pm2 reload all'
     }
   }
 }
